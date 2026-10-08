@@ -139,7 +139,7 @@ for gh_platform in macOS_arm64 macOS_amd64 linux_amd64; do
     (cd "$test_root/releases" && shasum -a 256 "$gh_archive" >> gh_2.102.0_checksums.txt)
 done
 mkdir -p "$test_root/bootstrap-bin"
-for tool in bash cp tar install mktemp shasum awk unzip sed grep mkdir rm dirname; do
+for tool in bash cp tar gzip install mktemp shasum awk unzip sed grep mkdir rm dirname; do
     ln -s "$(command -v "$tool")" "$test_root/bootstrap-bin/$tool"
 done
 ln -s "$test_root/bin/curl" "$test_root/bootstrap-bin/curl"
