@@ -80,7 +80,7 @@ try {
     $script:gitInitialized = 0
     function Initialize-DialGitBash { $script:gitInitialized++ }
     $script:release.assets = @()
-    $destination = Join-Path $root 'Installed space Unicode'
+    $destination = Join-Path $root ('Installed space ' + [char]0x96EA)
     Assert-DialRefused { Install-Dial -Version latest -InstallDirectory $destination -NoPathUpdate } 'native Windows download is not published'
     Assert-DialTest ($script:gitInitialized -eq 0 -and -not (Test-Path $destination)) 'Missing release installed unnecessary prerequisites or touched Dial'
 

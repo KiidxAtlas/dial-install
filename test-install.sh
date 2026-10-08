@@ -144,6 +144,16 @@ for tool in bash cp tar gzip install mktemp shasum awk unzip sed grep mkdir rm d
 done
 ln -s "$test_root/bin/curl" "$test_root/bootstrap-bin/curl"
 ln -s "$test_root/bin/uname" "$test_root/bootstrap-bin/uname"
+# The missing-CLI path covers the Intel ZIP and Linux tar.gz formats too.
+for pair in Darwin:x86_64 Linux:x86_64; do
+    fixture_os=${pair%:*}; fixture_arch=${pair#*:}
+    fixture_home="$test_root/gh-$fixture_os"
+    mkdir -p "$fixture_home"
+    env HOME="$fixture_home" SHELL=/bin/bash PATH="$test_root/bootstrap-bin" DIAL_INSTALL_BOOTSTRAP=1 \
+        DIAL_INSTALL_DIR="$fixture_home/bin" FAKE_OS="$fixture_os" FAKE_ARCH="$fixture_arch" \
+        bash "$installer_dir/install.sh" latest > "$test_root/gh-$fixture_os.log"
+    [ "$("$fixture_home/bin/dial" --version)" = 'dial 0.1.0' ]
+done
 bootstrap_home="$test_root/home space 'quote'"
 mkdir -p "$bootstrap_home"
 export DIAL_INSTALL_DIR="$test_root/bootstrap/bin"
