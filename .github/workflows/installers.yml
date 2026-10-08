@@ -1,0 +1,17 @@
+name: Installer tests
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  unix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash -n install.sh && bash test-install.sh
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Windows PowerShell 5.1 bootstrap and executable checks
+        shell: powershell
+        run: ./test-install-bootstrap.ps1
